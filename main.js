@@ -19,15 +19,18 @@ function createItem(name, price) {
   shoppingPriceDiv.setAttribute('class', 'shopping__price')
 
   shoppingNameDiv.textContent = name
-  shoppingPriceDiv.innerHTML = `${price} ￦ <i class="fa-solid fa-trash-can delete__btn"></i>`
-  const deleteItemBtn = document.querySelector('.delete__btn')
-  deleteItemBtn.addEventListener('click', (event) => {
-    console.log(event.target.parentNode.parentNode)
-    shoppingList.removeChild(event.target.parentNode.parentNode)
+  shoppingPriceDiv.innerHTML = `${price} ￦`
+
+  const deleteItemBtn = document.createElement('button')
+  deleteItemBtn.setAttribute('class', 'item__delete')
+  deleteItemBtn.innerHTML = '<i class="fa-solid fa-trash-can delete__btn"></i>'
+  deleteItemBtn.addEventListener('click', () => {
+    shoppingList.removeChild(li)
   })
   
   li.appendChild(shoppingNameDiv)
   li.appendChild(shoppingPriceDiv)
+  li.appendChild(deleteItemBtn)
 
   return li
 }
@@ -35,11 +38,15 @@ function createItem(name, price) {
 function onAdd() {
   const name = itemName.value
   const price = itemPrice.value
-  const item = createItem(name, price)
-  shoppingList.appendChild(item)
-  itemInput.value = ''
-  priceInput.value = ''
-  itemInput.focus()
+  if(name === '' || price === '') {
+    alert('품목과 가격을 정확히 입력해주세요.')
+  } else {
+    const item = createItem(name, price)
+    shoppingList.appendChild(item)
+    itemInput.value = ''
+    priceInput.value = ''
+    itemInput.focus()
+  }
 }
 
 addButton.addEventListener('click', () => {
