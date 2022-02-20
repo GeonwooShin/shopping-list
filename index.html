@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping List</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/71c1808d15.js" crossorigin="anonymous"></script>
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <section class="main">
+    <!-- Title -->
+    <h1 class="title">Shopping List <i class="fa-solid fa-check"></i></h1>
+
+    <!-- Add Items -->
+    <div class="add__list">
+      <input type="text" class="item__name" placeholder="품목" value=""> /
+      <input type="number" class="item__price" placeholder="가격" value="">
+      <i class="fa-solid fa-circle-plus add__button"></i>
+    </div>
+
+    <!-- Shopping List -->
+    <ul class="shopping__list">
+      <li>
+        <div class="shopping__name">가지</div>
+        <div class="shopping__price">3,000 ￦ <i class="fa-solid fa-trash-can delete__btn"></i></div>
+      </li>
+    </ul>
+
+    <!-- Summary -->
+    <div class="sum__list">
+      <div class="sum__checked">
+        <div>Checked</div>
+        <div class="sum__checked_price">0 ￦</div>
+      </div>
+      <div class="sum__unchecked">
+        <div>UnChecked</div>
+        <div class="sum__unchecked_price">0 ￦</div>
+      </div>
+      <div class="sum__total">
+        <div>Total</div>
+        <div class="sum__total_price">0 ￦</div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
