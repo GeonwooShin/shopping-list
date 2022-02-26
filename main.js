@@ -1,3 +1,4 @@
+const itemInput = document.querySelector('.add__list')
 const itemName = document.querySelector('.item__name')
 const itemPrice = document.querySelector('.item__price')
 const shoppingList = document.querySelector('.shopping__list')
@@ -6,48 +7,23 @@ let checkedPrice = new Number(0)
 let uncheckedPrice = new Number(0)
 
 // 쇼핑리스트에 아이템 추가
+let id = 0
 function createItem(name, price) {
   const li = document.createElement("li")
-
-  const shoppingNameDiv = document.createElement("div")
-  shoppingNameDiv.setAttribute('class', 'shopping__name')
-
-  const shoppingPriceDiv = document.createElement("div")
-  shoppingPriceDiv.setAttribute('class', 'shopping__price')
-
-  const shoppingPrice = document.createElement("span")
-  shoppingPrice.innerHTML = `${price} ￦`
-
-  shoppingNameDiv.textContent = name
-
-  const deleteItemBtn = document.createElement('button')
-  deleteItemBtn.setAttribute('class', 'item__delete')
-  deleteItemBtn.innerHTML = '<i class="fa-solid fa-trash-can delete__btn"></i>'
-  deleteItemBtn.addEventListener('click', () => {
-    shoppingList.removeChild(li)
-    const price = parseInt(li.dataset.price)
-    if(li.classList.contains('checked')) {
-      checkedPrice -= price
-    } else {
-      uncheckedPrice -= price
-    }
-    updateSum()
-  })
-
-  shoppingPriceDiv.appendChild(shoppingPrice)
-  shoppingPriceDiv.appendChild(deleteItemBtn)
-  
-  li.setAttribute('data-price', `${price}`)
-  li.appendChild(shoppingNameDiv)
-  li.appendChild(shoppingPriceDiv)
-
   li.setAttribute('class', 'shopping__list__item')
+  li.setAttribute('data-id', id)
+  li.setAttribute('data-price', price)
+  li.innerHTML = `
+    <div class="shopping__name">${name}</div>
+    <div class="shopping__price">
+      <span>${price} ￦</span>
+      <button>
+        <i data-id="${id}" class="fa-solid fa-trash-can delete__btn"></i>
+      </button>
+    </div>
+  `
 
-  // 리스트에 있는 품목 클릭하면 줄 긋기
-  li.addEventListener('click', (event) => {
-    onCheck(event)
-  })
-
+  id++
   return li
 }
 
@@ -114,8 +90,14 @@ function onCheck(event) {
   updateSum()
 }
 
-addButton.addEventListener('click', () => {
-  onAdd()
+// 아이템누르면 체크처리, 휴지통 누르면 삭제처리
+shoppingList.addEventListener('click', (event) => {
+  const id = event.target.dataset.id
+  if(id && event.target.nodeName === 'I') {
+    const toBeDeleted = document.querySelector(`.shopping__list__item[data-id="${id}"]`)
+    toBeDeleted.remove()
+  }
+  onCheck(event)
 })
 
 // 가격 계산
@@ -129,7 +111,11 @@ function updateSum() {
   totalSum.textContent = `${checkedPrice + uncheckedPrice} ￦`
 }
 
-// 품목과 가격 넣고 엔터키 누르면 아이템 추가
+// 품목과 가격 넣고 추가버튼 누르거나 엔터키 누르면 아이템 추가
+addButton.addEventListener('click', () => {
+  onAdd()
+})
+
 function enterAdd(event) {
   if(event.key === 'Enter') {
     onAdd()
@@ -138,10 +124,6 @@ function enterAdd(event) {
   }
 }
 
-itemName.addEventListener('keypress', (event) => {
-  enterAdd(event)
-})
-
-itemPrice.addEventListener('keypress', (event) => {
+itemInput.addEventListener('keydown', (event) => {
   enterAdd(event)
 })
